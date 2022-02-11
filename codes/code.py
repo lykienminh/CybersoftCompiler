@@ -1,1 +1,1 @@
-print("Hello world! 7012")
+prinft("Hello world!")

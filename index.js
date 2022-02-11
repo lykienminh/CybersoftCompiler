@@ -38,7 +38,7 @@ app.get('/run', async (req, res) =>{
       output = await executeJava(filepath);
     }
 
-    return res.json({ filepath, output });
+    return res.json({ output });
     //return res.status(200).send(output);
   } catch (err) {
     res.status(500).json({ err });
