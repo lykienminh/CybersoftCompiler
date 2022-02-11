@@ -11,11 +11,11 @@ const app = express();
 app.use(express.urlencoded( {extended: true} ));
 app.use(express.json());
 
-/*app.get('/', (req, res) =>{
-    return res.json({hello: "world!"});
-})*/
+app.get('/', (req, res) =>{
+    return res.json({Message: "CyberSoft Compiler Hello!"});
+})
 
-app.get('/', async (req, res) =>{
+app.get('/run', async (req, res) =>{
   const { language = "cpp", code } = req.body;
 
   console.log(language, "Length:", code.length);
