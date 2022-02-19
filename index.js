@@ -15,7 +15,7 @@ app.get('/', (req, res) =>{
     return res.json({Message: "CyberSoft Compiler Hello!"});
 })
 
-app.get('/run', async (req, res) =>{
+app.post('/run', async (req, res) =>{
   const { language = "cpp", code } = req.body;
 
   console.log(language, "Length:", code.length);
