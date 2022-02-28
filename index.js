@@ -7,10 +7,10 @@ const { executeJava } = require("./executeJava");
 
 const {Client} = require('pg');
 const pool = new Client({
-    user: 'jqwimixjeodukb',         
-    host: 'ec2-52-44-80-40.compute-1.amazonaws.com',
-    database: 'dcrj71ad8ke06o',
-    password: '1d7d0dc399de2542ed3bfa3d4107ca21b3bd8965a1c554e353b15f446023d71d',    
+    user: 'rskcxehdjtxnnh',         
+    host: 'ec2-3-89-214-80.compute-1.amazonaws.com',
+    database: 'd22obclk3e86pt',
+    password: '3d3e378cf781a612ecb857dc75eec6c1f569df987e6b1d2088a0c1fdaee7943a',    
     port: 5432,
     ssl: true,
 });
@@ -39,7 +39,9 @@ app.get("/:id", async (req, res) => {
   try {
       const id = parseInt(req.params.id)
       const question_id = await pool.query('SELECT * FROM problem WHERE question_id = $1', [id]);
-      res.status(200).json(question_id.rows);
+      const test_case = await pool.query('SELECT * FROM testcase WHERE question_id = $1', [id]);
+      const init_code = await pool.query('SELECT * FROM init_code WHERE question_id = $1', [id]);
+      res.status(200).json(question_id, test_case, init_code);
   } catch(error) {
       res.status(500).send(error);
   }
