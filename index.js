@@ -25,6 +25,16 @@ app.get('/', (req, res) =>{
     return res.json({Message: "CyberSoft Compiler Hello!"});
 })
 
+app.get("/AllProblem", async (req, res) => {
+  try {
+      const id = parseInt(req.params.id)
+      const question_id = await pool.query('SELECT * FROM problem');
+      res.status(200).json(question_id.rows);
+  } catch(error) {
+      res.status(500).send(error);
+  }
+})
+
 app.get("/:id", async (req, res) => {
   try {
       const id = parseInt(req.params.id)
