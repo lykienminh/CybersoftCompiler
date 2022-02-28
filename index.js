@@ -5,6 +5,16 @@ const { executeCpp } = require("./executeCpp");
 const { executePy } = require("./executePy");
 const { executeJava } = require("./executeJava");
 
+const {Client} = require('pg');
+const pool = new Client({
+    user: 'jqwimixjeodukb',         
+    host: 'ec2-52-44-80-40.compute-1.amazonaws.com',
+    database: 'dcrj71ad8ke06o',
+    password: '1d7d0dc399de2542ed3bfa3d4107ca21b3bd8965a1c554e353b15f446023d71d',    
+    port: 5432,
+    ssl: true,
+});
+pool.connect();
 
 const app = express();
 
@@ -13,6 +23,16 @@ app.use(express.json());
 
 app.get('/', (req, res) =>{
     return res.json({Message: "CyberSoft Compiler Hello!"});
+})
+
+app.get("/:id", async (req, res) => {
+  try {
+      const id = parseInt(req.params.id)
+      const question_id = await pool.query('SELECT * FROM problem WHERE question_id = $1', [id]);
+      res.status(200).json(question_id.rows);
+  } catch(error) {
+      res.status(500).send(error);
+  }
 })
 
 app.post('/run', async (req, res) =>{

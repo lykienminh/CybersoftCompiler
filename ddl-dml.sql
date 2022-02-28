@@ -2,8 +2,249 @@
 CREATE TABLE problem (
 	question_id integer primary key,
 	question_title varchar(500), 
-	descriptions varchar(1000)
+	descriptions varchar(5000)
 );
+
+CREATE TABLE testcase (
+	question_id integer,
+	testcase_id integer,
+	_input varchar(500),
+	_output varchar(1000),
+	PRIMARY KEY (question_id, testcase_id),
+	FOREIGN KEY (question_id) REFERENCES problem(question_id)
+);
+
+CREATE TABLE init_code (
+	question_id integer,
+	_language varchar(50),
+	head varchar(5000),
+	_function varchar(1000),
+	tail varchar(5000),
+	PRIMARY KEY (question_id, _language),
+	FOREIGN KEY (question_id) REFERENCES problem(question_id)
+);
+
+-- 21
+INSERT INTO problem
+VALUES (21, 'Unique Number', 
+'Given an array of integers in which every numbers appears twice except for one, your taks is to find that unique element.
+
+Expected : O(n) time, O(1) space
+
+Example:
+
+For arr = [19, 17, 19, 68, 68], the output should be uniqueNumber(arr) = 17.
+Input/Output:
+
+[Execution time limit] 1 seconds
+
+[Input] array.integer nums
+
+Guaranteed constraints:
+1 ≤ nums.length < 104,
+-109 ≤ nums[i] ≤ 109.
+
+[Output] integer'); 
+
+INSERT INTO testcase VALUES (21, 1, '[19, 17, 19, 68, 68]', '17'); 
+INSERT INTO testcase VALUES (21, 2, '[34, 76, 76]', '34'); 
+INSERT INTO testcase VALUES (21, 3, '[46, 46, 11, 11, 59, 59, 55, 55, 35]', '35'); 
+INSERT INTO testcase VALUES (21, 4, '[19, 1, 41, 41, 94, 1, 94, 80, 19]', '80'); 
+INSERT INTO testcase VALUES (21, 5, '[86, 51, 51, 72, 57, 57, 78, 78, 86]', '72'); 
+INSERT INTO testcase VALUES (21, 6, '[45, 90, 45, 90, 26, 38, 49, 26, 38]', '49'); 
+
+INSERT INTO init_code VALUES (21, 'c++', 'head', 
+'int uniqueNumber(std::vector<int> arr){
+}','tail'); 
+INSERT INTO init_code VALUES (21, 'java', 'head', 
+'int uniqueNumber(int[] arr) {
+}','tail'); 
+INSERT INTO init_code VALUES (21, 'javascript', 'head', 
+'function uniqueNumber(arr){
+}','tail'); 
+INSERT INTO init_code VALUES (21, 'python', 'head', 'def uniqueNumber(arr):','tail'); 
+
+-- 22
+INSERT INTO problem
+VALUES (22, 'Check Number', 
+'Given a string s containing characters and numbers, check to see if s is represented as a decimal integer or not. Returns 1 if true, -1 if false.
+
+Example:
+
+For s = "a123"  then checkNumber(s) = false.
+Explanation: "a123" cannot be represented as a decimal integer.
+Input/Output:
+
+[Execution time] 0.5s for C++, 3s for Java and C#, 4s for Python, Go and JavaScript.
+
+[Input]  String s
+s.Length ≤ 50
+
+[Output] Integer
+Return 1 if s is represented as a decimal integer, -1 otherwise.'); 
+
+INSERT INTO testcase VALUES (22, 1, '1365', '1'); 
+INSERT INTO testcase VALUES (22, 2, 'ab2', '-1'); 
+INSERT INTO testcase VALUES (22, 3, '123412312441231312413134124', '1'); 
+
+INSERT INTO init_code VALUES (22, 'c++', 'head', 
+'int checkNumber(string s)
+{
+}','tail'); 
+INSERT INTO init_code VALUES (22, 'java', 'head', 
+'int checkNumber(String s) {
+}','tail'); 
+INSERT INTO init_code VALUES (22, 'javascript', 'head', 
+'function checkNumber(s){
+}','tail'); 
+INSERT INTO init_code VALUES (22, 'python', 'head', 'def checkNumber(s):','tail');
+
+-- 23
+INSERT INTO problem
+VALUES (23, 'Upper Case', 
+'Given a string str containing the name of a function, each single word is space-separated. Return the function name according to the UpperCase rule - Every single word must be capitalized first.
+
+Example:
+
+For str = "hello case" then upper_case(str) = "HelloCase".
+For str = "camel case word" then upper_case(str) = "CamelCaseWord".
+Input / Output:
+
+[Execution time] 0.5s for C++, 3s for Java and C#, 4s for  Python, Go and JavaScript.
+[Input] String str
+0 < str.length ≤ 10^6
+
+[Output] String
+The function name follows the UpperCase principle'); 
+
+INSERT INTO testcase VALUES (23, 1, 'test case', 'TestCase'); 
+INSERT INTO testcase VALUES (23, 2, 'camel case method', 'CamelCaseMethod'); 
+INSERT INTO testcase VALUES (23, 3, 'say hello', 'SayHello');
+INSERT INTO testcase VALUES (23, 4, ' camel case word', 'CamelCaseWord');
+INSERT INTO testcase VALUES (23, 5, '', '');
+
+INSERT INTO init_code VALUES (23, 'c++', 'head', 
+'string upperCase(string string)
+{
+}','tail'); 
+INSERT INTO init_code VALUES (23, 'java', 'head', 
+'String upperCase(String string) {
+}','tail'); 
+INSERT INTO init_code VALUES (23, 'javascript', 'head', 
+'function upperCase(string){
+}','tail'); 
+INSERT INTO init_code VALUES (23, 'python', 'head', 'def upper_case(string):','tail');
+
+-- 24
+INSERT INTO problem
+VALUES (24, 'Check Max', 
+'Given a string str. Find the character which has the greatest decimal value in str (in ASCII table) and return that decimal value.
+
+Example: 
+
+For s1 = "abc", the output should be checkMax(s1)= 99.
+Because ''c'' has the greatest decimal value in s1 and the decimal value of ''c'' is 99.
+Input/Output:
+
+[Execution time limit] 0.1s for C++, 0.6s for Java, C#, 0.8s for Python, Js, Go
+[Input] string str
+1 ≤ s1.length ≤ 20000
+[Output]  integer
+The greatest decimal value.'); 
+
+INSERT INTO testcase VALUES (24, 1, 'abc', '99'); 
+INSERT INTO testcase VALUES (24, 2, 'fdhfghfgh', '104'); 
+INSERT INTO testcase VALUES (24, 3, 'slfjlJKHKJkk', '115'); 
+
+INSERT INTO init_code VALUES (24, 'c++', 'head', 
+'int checkMax(string str)
+{
+}','tail'); 
+INSERT INTO init_code VALUES (24, 'java', 'head', 
+'int checkMax(String str) {
+}','tail'); 
+INSERT INTO init_code VALUES (24, 'javascript', 'head', 
+'function checkMax(str){
+}','tail'); 
+INSERT INTO init_code VALUES (24, 'python', 'head', 'def checkMax(str):','tail');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
