@@ -11,6 +11,8 @@
 - Run NodeJS by running the command `node index.js`.
 - Make a *POST* api call to `https://localhost:3001/run`.
 - Example.  
+<!-- - npm config set strict-ssl=false -->
+<!-- - set NODE_TLS_REJECT_UNAUTHORIZED=0  -->
 
 1 - C++  
 Input  

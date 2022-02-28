@@ -22,14 +22,55 @@ app.use(express.urlencoded( {extended: true} ));
 app.use(express.json());
 
 app.get('/', (req, res) =>{
-    return res.json({Message: "CyberSoft Compiler Hello!"});
+    return res.json({"Message": "CyberSoft Compiler Hello!", "API": ["/getAllQuestionID", "/getAllQuestion", "/:id"]});
 })
 
-app.get("/AllProblem", async (req, res) => {
+async function getQuestionID (id) {
   try {
-      const id = parseInt(req.params.id)
-      const question_id = await pool.query('SELECT * FROM problem');
-      res.status(200).json(question_id.rows);
+    const question_id = await pool.query('SELECT * FROM problem WHERE question_id = $1', [id]);
+    const test_case = await pool.query('SELECT testcase_id, _input, _output FROM testcase WHERE question_id = $1', [id]);
+    const init_code = await pool.query('SELECT _language, head, _function, tail FROM init_code WHERE question_id = $1', [id]);
+    let result = { ...question_id.rows[0], "test_case": test_case.rows, "init_code": init_code.rows };
+    return result;
+  } catch(error) {
+    throw error;
+  }
+}
+
+app.get("/getAllQuestionID", async (req, res) => {
+  try {
+    const questionID = await pool.query('SELECT question_id FROM problem');
+    let result = [];
+    questionID.rows.forEach(element => {
+      result.push(element.question_id)
+    });
+    res.status(200).json(result);
+  } catch(error) {
+    res.status(500).send(error);
+  }
+})
+
+// var http = require('http');
+app.get("/getAllQuestion", async (req, res) => {
+  try {
+    let questionID = await pool.query('SELECT question_id FROM problem');
+    let result = [];
+    questionID.rows.forEach(element => {
+      result.push(element.question_id)
+    });
+
+    questionID = result;
+    result = [];
+    // questionID.forEach(element => {
+    //   let temp = getQuestionID(element)
+    //   result.push(temp)
+    // });
+    for (const element in questionID) {
+      let temp = await getQuestionID(questionID[element]);
+      result.push(temp);
+    }
+
+    res.status(200).json(result);
   } catch(error) {
       res.status(500).send(error);
   }
@@ -37,13 +78,11 @@ app.get("/AllProblem", async (req, res) => {
 
 app.get("/:id", async (req, res) => {
   try {
-      const id = parseInt(req.params.id)
-      const question_id = await pool.query('SELECT * FROM problem WHERE question_id = $1', [id]);
-      const test_case = await pool.query('SELECT * FROM testcase WHERE question_id = $1', [id]);
-      const init_code = await pool.query('SELECT * FROM init_code WHERE question_id = $1', [id]);
-      res.status(200).json(question_id, test_case, init_code);
+    const id = parseInt(req.params.id)
+    let result = await getQuestionID(id)
+    res.status(200).json(result);
   } catch(error) {
-      res.status(500).send(error);
+    res.status(500).send(error);
   }
 })
 
@@ -78,6 +117,7 @@ app.post('/run', async (req, res) =>{
 })
 
 const PORT = process.env.PORT || 3001;
+process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0;
 app.listen(PORT, () => {
   console.warn(`App listening on http://localhost:${PORT}`);
 });  
