@@ -7,10 +7,10 @@ const { executeJava } = require("./executeJava");
 
 const {Client} = require('pg');
 const pool = new Client({
-    user: 'rskcxehdjtxnnh',         
-    host: 'ec2-3-89-214-80.compute-1.amazonaws.com',
-    database: 'd22obclk3e86pt',
-    password: '3d3e378cf781a612ecb857dc75eec6c1f569df987e6b1d2088a0c1fdaee7943a',    
+    user: '',         
+    host: '',
+    database: '',
+    password: '',    
     port: 5432,
     ssl: true,
 });
