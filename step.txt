@@ -1,2 +1,35 @@
 npm install --save express
 npm install --save uuid
+
+// Dap an
+
+// Cau 24
+// CPP
+#include <iostream>
+
+using namespace std;
+
+int checkMax(string str)
+{
+    char answer = str[0];
+    for (int i=1;i<str.size();i++)
+    if (str[i]>answer)
+    answer=str[i];
+    return answer;
+}
+
+int main()
+{
+    cout << checkMax();
+    return 0;
+}
+//PY
+def checkMax(str1):
+    lst = list(str1)
+    ascii = []
+    for x in lst:
+        ascii.append(ord(x))
+    return max(ascii)
+    
+print(checkMax("abc"))
+//JS
