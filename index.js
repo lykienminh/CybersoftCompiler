@@ -109,7 +109,7 @@ app.post('/run', async (req, res) =>{
     let output;
     if (language === "cpp") {
       output = await executeCpp(filepath);
-    } else if (language === "py") {
+    } else if (language === "python") {
       output = await executePy(filepath);
     }
     else if (language === "java") {
