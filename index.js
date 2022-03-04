@@ -136,6 +136,75 @@ app.post('/run', async (req, res) => {
   return res.status(200).json({success: true, output: result[1]});
 })
 
+/*async function getTestCase (id) {
+  try {
+    const test_case = await pool.query('SELECT testcase_id, _input, _output FROM testcase WHERE question_id = $1', [id]);
+    return test_case;
+  } catch (error) {
+    throw error;
+  }
+}*/
+
+function generateCode (base_code, user_submit, test_case) {
+  let result = base_code.replace("__function__", user_submit);
+  result = result.replace("__test_case__", test_case);
+  return result;
+}
+
+app.post('/submit', async (req, res) => {
+  try {
+    const { question, language, code } = req.body;
+    if (question === undefined || question === "") 
+      return res.status(400).json({success: false, message: "Don't have question ID"});
+    if (language === undefined || language === "") 
+      return res.status(400).json({success: false, message: "Don't have language"});
+    const testCase = await pool.query('SELECT testcase_id, _input, _output FROM testcase WHERE question_id = $1', [question]);
+    let baseCode = await pool.query('SELECT base_code FROM init_code WHERE question_id = $1 AND _language = $2', [question, language]);
+    baseCode = baseCode.rows[0];
+
+    let final = [];
+    let tempOutput = "", actualMessage = "";
+
+    // console.log(testCase.rowCount);
+
+    for (let i = 0; i < testCase.rowCount; i++) {
+      let codeNewData = generateCode(baseCode["base_code"], code, testCase.rows[i]["_input"]);
+      // call api compiler
+      let actualOutput = await runCode({language, code: codeNewData});
+
+      // error
+      if (!actualOutput[0]) {
+        tempOutput = await JSON.stringify({ 
+          "id":  testCase.rows[i]["testcase_id"],
+          "input": testCase.rows[i]["_input"],
+          "actualOutput": "",
+          "expectedOutput": testCase.rows[i]["_output"],
+          "message": actualOutput[1],
+        });
+      }
+      
+      else {
+        actualOutput[1] = actualOutput[1].slice(0, -2);
+        if (actualOutput[1] === testCase.rows[i]["_output"]) actualMessage = "Right answer"
+        if (actualOutput[1] === testCase.rows[i]["_output"].split('\\n').join('\n')) actualMessage = "Right answer"  
+        if (actualMessage === "") actualMessage = "Wrong answer"
+        tempOutput = await JSON.stringify({ 
+          "id":  testCase.rows[i]["testcase_id"],
+          "input": testCase.rows[i]["_input"],
+          "actualOutput": actualOutput[1],
+          "expectedOutput": testCase.rows[i]["_output"],
+          "message": actualMessage,
+        });
+      }
+
+      tempOutput = JSON.parse(tempOutput)
+      final.push(tempOutput);
+    }
+    return res.status(200).send(final);
+  } catch (err) {
+    console.log(err);
+  }
+})
 /*app.post('/run', async (req, res) =>{
   const { language = "cpp", code } = req.body;
 
