@@ -17,9 +17,9 @@ CREATE TABLE testcase (
 CREATE TABLE init_code (
 	question_id integer,
 	_language varchar(50),
-	head varchar(5000),
-	_function varchar(1000),
-	tail varchar(5000),
+	base_code varchar(10000),
+	_function varchar(1000), 
+	_answer varchar(5000),
 	PRIMARY KEY (question_id, _language),
 	FOREIGN KEY (question_id) REFERENCES problem(question_id)
 );
@@ -53,16 +53,24 @@ INSERT INTO testcase VALUES (21, 4, '[19, 1, 41, 41, 94, 1, 94, 80, 19]', '80');
 INSERT INTO testcase VALUES (21, 5, '[86, 51, 51, 72, 57, 57, 78, 78, 86]', '72'); 
 INSERT INTO testcase VALUES (21, 6, '[45, 90, 45, 90, 26, 38, 49, 26, 38]', '49'); 
 
-INSERT INTO init_code VALUES (21, 'c++', 'head', 
+INSERT INTO init_code VALUES (21, 'cpp', 'head', 
 'int uniqueNumber(std::vector<int> arr){
-}','tail'); 
+}', ''); 
 INSERT INTO init_code VALUES (21, 'java', 'head', 
 'int uniqueNumber(int[] arr) {
-}','tail'); 
+}', ''); 
 INSERT INTO init_code VALUES (21, 'javascript', 'head', 
 'function uniqueNumber(arr){
-}','tail'); 
-INSERT INTO init_code VALUES (21, 'python', 'head', 'def uniqueNumber(arr):','tail'); 
+}', ''); 
+INSERT INTO init_code VALUES (21, 'python', 
+'__function__
+print(uniqueNumber(__test_case__))',
+'def uniqueNumber(arr):', 
+'def uniqueNumber(arr):
+	for x in arr:
+		if arr.count(x) == 1:
+			return x
+'); 
 
 -- 22
 INSERT INTO problem
@@ -75,7 +83,7 @@ For s = "a123"  then checkNumber(s) = false.
 Explanation: "a123" cannot be represented as a decimal integer.
 Input/Output:
 
-[Execution time] 0.5s for C++, 3s for Java and C#, 4s for Python, Go and JavaScript.
+[Execution time] 0.5s for cpp, 3s for Java and C#, 4s for Python, Go and JavaScript.
 
 [Input]  String s
 s.Length ≤ 50
@@ -87,17 +95,27 @@ INSERT INTO testcase VALUES (22, 1, '1365', '1');
 INSERT INTO testcase VALUES (22, 2, 'ab2', '-1'); 
 INSERT INTO testcase VALUES (22, 3, '123412312441231312413134124', '1'); 
 
-INSERT INTO init_code VALUES (22, 'c++', 'head', 
+INSERT INTO init_code VALUES (22, 'cpp', 'head', 
 'int checkNumber(string s)
 {
-}','tail'); 
+}', ''); 
 INSERT INTO init_code VALUES (22, 'java', 'head', 
 'int checkNumber(String s) {
-}','tail'); 
+}', ''); 
 INSERT INTO init_code VALUES (22, 'javascript', 'head', 
 'function checkNumber(s){
-}','tail'); 
-INSERT INTO init_code VALUES (22, 'python', 'head', 'def checkNumber(s):','tail');
+}', ''); 
+INSERT INTO init_code VALUES (22, 'python', 
+'__function__
+print(checkNumber(__test_case__))',
+'def checkNumber(s):', 
+'def checkNumber(s):
+	try:
+    	float(s)
+    	return 1
+    except:
+    	return -1
+');
 
 -- 23
 INSERT INTO problem
@@ -110,7 +128,7 @@ For str = "hello case" then upper_case(str) = "HelloCase".
 For str = "camel case word" then upper_case(str) = "CamelCaseWord".
 Input / Output:
 
-[Execution time] 0.5s for C++, 3s for Java and C#, 4s for  Python, Go and JavaScript.
+[Execution time] 0.5s for cpp, 3s for Java and C#, 4s for  Python, Go and JavaScript.
 [Input] String str
 0 < str.length ≤ 10^6
 
@@ -123,17 +141,23 @@ INSERT INTO testcase VALUES (23, 3, 'say hello', 'SayHello');
 INSERT INTO testcase VALUES (23, 4, ' camel case word', 'CamelCaseWord');
 INSERT INTO testcase VALUES (23, 5, '', '');
 
-INSERT INTO init_code VALUES (23, 'c++', 'head', 
+INSERT INTO init_code VALUES (23, 'cpp', 'head', 
 'string upperCase(string string)
 {
-}','tail'); 
+}', ''); 
 INSERT INTO init_code VALUES (23, 'java', 'head', 
 'String upperCase(String string) {
-}','tail'); 
+}', ''); 
 INSERT INTO init_code VALUES (23, 'javascript', 'head', 
 'function upperCase(string){
-}','tail'); 
-INSERT INTO init_code VALUES (23, 'python', 'head', 'def upper_case(string):','tail');
+}', ''); 
+INSERT INTO init_code VALUES (23, 'python',
+'__function__
+print (upper_case(__test_case__))',
+'def upper_case(string):', 
+'def upper_case(string):
+	return string.title().replace('' '', '''')
+');
 
 -- 24
 INSERT INTO problem
@@ -146,7 +170,7 @@ For s1 = "abc", the output should be checkMax(s1)= 99.
 Because ''c'' has the greatest decimal value in s1 and the decimal value of ''c'' is 99.
 Input/Output:
 
-[Execution time limit] 0.1s for C++, 0.6s for Java, C#, 0.8s for Python, Js, Go
+[Execution time limit] 0.1s for cpp, 0.6s for Java, C#, 0.8s for Python, Js, Go
 [Input] string str
 1 ≤ s1.length ≤ 20000
 [Output]  integer
@@ -156,17 +180,27 @@ INSERT INTO testcase VALUES (24, 1, 'abc', '99');
 INSERT INTO testcase VALUES (24, 2, 'fdhfghfgh', '104'); 
 INSERT INTO testcase VALUES (24, 3, 'slfjlJKHKJkk', '115'); 
 
-INSERT INTO init_code VALUES (24, 'c++', 'head', 
+INSERT INTO init_code VALUES (24, 'cpp', 'head', 
 'int checkMax(string str)
 {
-}','tail'); 
+}', ''); 
 INSERT INTO init_code VALUES (24, 'java', 'head', 
 'int checkMax(String str) {
-}','tail'); 
+}', ''); 
 INSERT INTO init_code VALUES (24, 'javascript', 'head', 
 'function checkMax(str){
-}','tail'); 
-INSERT INTO init_code VALUES (24, 'python', 'head', 'def checkMax(str):','tail');
+}', ''); 
+INSERT INTO init_code VALUES (24, 'python',
+'__function__
+print(checkMax(__test_case__))', 
+'def checkMax(str):',
+'def checkMax(str1):
+	lst = list(str1)
+	ascii = []
+	for x in lst:
+    	ascii.append(ord(x))
+	return max(ascii)
+');
 
 
 

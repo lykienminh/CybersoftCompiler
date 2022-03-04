@@ -5,7 +5,7 @@ const executeJS = (filepath) => {
     exec(
       `node ${filepath}`,
       (error, stdout, stderr) => {
-        error && reject({ error, stderr });
+        error && reject(stderr);
         stderr && reject(stderr);
         resolve(stdout);
       }
@@ -23,3 +23,4 @@ module.exports = {
 //   "language": "javascript",
 //   "code": "function sub(a, b) {\nreturn a-b\n}\nconsole.log(sub(6, 2))"
 // }
+//   console.log('Hello World');

@@ -8,10 +8,10 @@ const { executeJS } = require("./executeJS");
 
 const {Client} = require('pg');
 const pool = new Client({
-    user: '',         
-    host: '',
-    database: '',
-    password: '',    
+    user: 'rskcxehdjtxnnh',         
+    host: 'ec2-3-89-214-80.compute-1.amazonaws.com',
+    database: 'd22obclk3e86pt',
+    password: '3d3e378cf781a612ecb857dc75eec6c1f569df987e6b1d2088a0c1fdaee7943a',    
     port: 5432,
     ssl: true,
 });
@@ -36,7 +36,7 @@ async function getQuestionID (id) {
   try {
     const question_id = await pool.query('SELECT * FROM problem WHERE question_id = $1', [id]);
     const test_case = await pool.query('SELECT testcase_id, _input, _output FROM testcase WHERE question_id = $1', [id]);
-    const init_code = await pool.query('SELECT _language, head, _function, tail FROM init_code WHERE question_id = $1', [id]);
+    const init_code = await pool.query('SELECT _language, _function, base_code, _answer FROM init_code WHERE question_id = $1', [id]);
     let result = { ...question_id.rows[0], "test_case": test_case.rows, "init_code": init_code.rows };
     return result;
   } catch(error) {
@@ -93,7 +93,50 @@ app.get("/:id", async (req, res) => {
   }
 })
 
-app.post('/run', async (req, res) =>{
+async function runCode (props) {
+  const { language = "cpp", code } = props;
+
+  console.log(language, "Length:", code.length);
+
+  if (code === undefined || code === "") {
+    return [false, "Empty code body!"];
+  }
+
+  try {
+    // need to generate a c++ file with content from the request
+    const filepath = await generateFile(language, code);
+    // we need to run the file and send the response
+    let output;
+    if (language === "cpp") {
+      output = await executeCpp(filepath);
+    } else if (language === "py") {
+      output = await executePy(filepath);
+    }
+    else if (language === "java") {
+      output = await executeJava(filepath);
+    }
+    else if (language === "js") {
+      output = await executeJS(filepath);
+    }
+    else {
+      return [false, "Don't know this language"];
+    }
+
+
+    return [true, output];
+    //return res.status(200).send(output);
+  } catch (err) {
+    return [false, err];
+  }
+}
+
+app.post('/run', async (req, res) => {
+  const result = await runCode(req.body);
+  if (!result[0]) return res.status(400).json({success: false, error: result[1]});
+  return res.status(200).json({success: true, output: result[1]});
+})
+
+/*app.post('/run', async (req, res) =>{
   const { language = "cpp", code } = req.body;
 
   console.log(language, "Length:", code.length);
@@ -109,7 +152,7 @@ app.post('/run', async (req, res) =>{
     let output;
     if (language === "cpp") {
       output = await executeCpp(filepath);
-    } else if (language === "python") {
+    } else if (language === "py") {
       output = await executePy(filepath);
     }
     else if (language === "java") {
@@ -124,7 +167,7 @@ app.post('/run', async (req, res) =>{
   } catch (err) {
     res.status(500).json({ err });
   }
-})
+})*/
 
 const PORT = process.env.PORT || 3001;
 process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0;
