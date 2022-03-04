@@ -4,6 +4,7 @@ const { generateFile } = require("./generateFile");
 const { executeCpp } = require("./executeCpp");
 const { executePy } = require("./executePy");
 const { executeJava } = require("./executeJava");
+const { executeJS } = require("./executeJS");
 
 const {Client} = require('pg');
 const pool = new Client({
@@ -113,6 +114,9 @@ app.post('/run', async (req, res) =>{
     }
     else if (language === "java") {
       output = await executeJava(filepath);
+    }
+    else if (language === "javascript") {
+      output = await executeJS(filepath);
     }
 
     return res.json({ output });
