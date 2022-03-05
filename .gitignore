@@ -6,8 +6,6 @@
 .pnp.js
 /codes
 /outputs
-/ddl-dml-quy.sql
-/ddl-dml-min.sql
 
 # testing
 /coverage
