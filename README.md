@@ -80,6 +80,63 @@ a. Right answer
 b. Wrong answer  
 c. Error  
 
+### 2.1.2. Java  ###   
+> Input  
+```json
+{
+  "question": 21,
+  "language": "java",
+  "code": "int uniqueNumber(int[] arr) {\n\tArrays.sort(arr);\n\tint result = 0;\n\tfor(int i = 0; i < arr.length; i += 2) {\n\t\tif (arr[i] != arr[i + 2]) {\n\t\t\tresult = arr[i];\n\t\t\tbreak;\n\t\t}\n\t}\n\treturn result;\n}"
+}
+```
+> Output  
+```json
+[
+    {
+        "id": 1,
+        "input": "[19, 17, 19, 68, 68]",
+        "actualOutput": "17",
+        "expectedOutput": "17",
+        "message": "Right answer"
+    },
+    {
+        "id": 2,
+        "input": "[34, 76, 76]",
+        "actualOutput": "34",
+        "expectedOutput": "34",
+        "message": "Right answer"
+    },
+    {
+        "id": 3,
+        "input": "[46, 46, 11, 11, 59, 59, 55, 55, 35]",
+        "actualOutput": "11",
+        "expectedOutput": "35",
+        "message": "Wrong answer"
+    },
+    {
+        "id": 4,
+        "input": "[19, 1, 41, 41, 94, 1, 94, 80, 19]",
+        "actualOutput": "1",
+        "expectedOutput": "80",
+        "message": "Wrong answer"
+    },
+    {
+        "id": 5,
+        "input": "[86, 51, 51, 72, 57, 57, 78, 78, 86]",
+        "actualOutput": "51",
+        "expectedOutput": "72",
+        "message": "Wrong answer"
+    },
+    {
+        "id": 6,
+        "input": "[45, 90, 45, 90, 26, 38, 49, 26, 38]",
+        "actualOutput": "26",
+        "expectedOutput": "49",
+        "message": "Wrong answer"
+    }
+]
+```
+
 ## 2.2. Compiler ##
 Make a *POST* api call to `https://localhost:3001/run`.
 <!-- - npm config set strict-ssl=false -->

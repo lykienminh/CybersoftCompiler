@@ -63,7 +63,8 @@ using namespace std;
 __function__
 
 int main() {
-    cout << uniqueNumber(__test_case__);
+    vector<int> param = {__test_case__};
+    cout << uniqueNumber(param);
     return 0;
 }', 
 'int uniqueNumber(vector<int> arr) {
@@ -85,12 +86,13 @@ import java.util.*;
 public class Solution {
     public static __function__
     public static void main(String[] args) {
-        System.out.println(uniqueNumber(__test_case__));
+        int[] param = {__test_case__};
+        System.out.println(uniqueNumber(param));
     }
 }', 
 'int uniqueNumber(int[] arr) {
 }', 
-'public static int uniqueNumber(int[] arr) {
+'int uniqueNumber(int[] arr) {
 	Arrays.sort(arr);
 	int result = 0;
 	for(int i = 0; i < arr.length; i += 2) {
@@ -152,7 +154,7 @@ using namespace std;
 __function__
 
 int main() {
-    cout << checkNumber(__test_case__);
+    cout << checkNumber("__test_case__");
     return 0;
 }', 
 'int checkNumber(string s) {
@@ -180,7 +182,7 @@ import java.util.*;
 public class Solution {
     public static __function__
     public static void main(String[] args) {
-        System.out.println(checkNumber(__test_case__));
+        System.out.println(checkNumber("__test_case__"));
     }
 }', 
 'int checkNumber(String s) {
@@ -190,7 +192,7 @@ public class Solution {
 }'); 
 INSERT INTO init_code VALUES (22, 'js', 
 '__function__
-console.log(checkNumber(__test_case__))
+console.log(checkNumber("__test_case__"))
 ', 
 'function checkNumber(s) {
 }', 
@@ -199,7 +201,7 @@ console.log(checkNumber(__test_case__))
 }'); 
 INSERT INTO init_code VALUES (22, 'py', 
 '__function__
-print(checkNumber(__test_case__))',
+print(checkNumber("__test_case__"))',
 'def checkNumber(s):', 
 'def checkNumber(s):
 	try:
@@ -241,7 +243,7 @@ using namespace std;
 __function__
 
 int main(){
-    cout << upperCase(__test_case__);
+    cout << upperCase("__test_case__");
     return 0;
 }
 ', 
@@ -266,7 +268,7 @@ import java.util.*;
 public class Solution {
     public static __function__
 	public static void main(String[] args) {
-		System.out.println(upperCase(__test_case__));
+		System.out.println(upperCase("__test_case__"));
 	}
 }
 ', 
@@ -285,7 +287,7 @@ public class Solution {
 }'); 
 INSERT INTO init_code VALUES (23, 'js', 
 '__function__
-console.log(upperCase(__test_case__));
+console.log(upperCase("__test_case__"));
 ', 
 'function upperCase(string) {
 }', 
@@ -298,7 +300,7 @@ console.log(upperCase(__test_case__));
 }'); 
 INSERT INTO init_code VALUES (23, 'py',
 '__function__
-print (upper_case(__test_case__))',
+print (upper_case("__test_case__"))',
 'def upper_case(string):', 
 'def upper_case(string):
 	return string.title().replace('' '', '''')
@@ -333,7 +335,7 @@ using namespace std;
 __function__
 
 int main() {
-    cout << checkMax(__test_case__);
+    cout << checkMax("__test_case__");
     return 0;
 }
 ', 
@@ -353,7 +355,7 @@ import java.util.*;
 public class Solution {
     public static __function__
 	public static void main(String[] args) {
-		System.out.println(checkMax(__test_case__));
+		System.out.println(checkMax("__test_case__"));
 	}
 }
 ', 
@@ -370,7 +372,7 @@ public class Solution {
 }'); 
 INSERT INTO init_code VALUES (24, 'js', 
 '__function__
-console.log(checkMax(__test_case__))
+console.log(checkMax("__test_case__"))
 ', 
 'function checkMax(str) {
 }', 
@@ -385,7 +387,7 @@ console.log(checkMax(__test_case__))
 }'); 
 INSERT INTO init_code VALUES (24, 'py',
 '__function__
-print(checkMax(__test_case__))', 
+print(checkMax("__test_case__"))', 
 'def checkMax(str):',
 'def checkMax(str1):
 	lst = list(str1)

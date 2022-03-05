@@ -96,12 +96,12 @@ app.get("/:id", async (req, res) => {
 async function runCode (props) {
   const { language = "cpp", code } = props;
 
-  console.log(language, "Length:", code.length);
+  console.log(language, "length:", code.length);
 
   if (code === undefined || code === "") {
     return [false, "Empty code body!"];
   }
-
+  let result 
   try {
     // need to generate a c++ file with content from the request
     const filepath = await generateFile(language, code);
@@ -126,6 +126,7 @@ async function runCode (props) {
     return [true, output];
     //return res.status(200).send(output);
   } catch (err) {
+    if (err["stdout"]) return [true, err["stdout"], err["stdout"]];
     return [false, err];
   }
 }
@@ -147,7 +148,11 @@ app.post('/run', async (req, res) => {
 
 function generateCode (base_code, user_submit, test_case) {
   let result = base_code.replace("__function__", user_submit);
-  result = result.replace("__test_case__", test_case);
+  if (test_case[0] === '[' && test_case.slice(-1) === ']') {
+    result = result.replace("__test_case__", test_case.slice(1, -1));
+  }
+  else result = result.replace("__test_case__", test_case);
+
   return result;
 }
 
@@ -163,12 +168,13 @@ app.post('/submit', async (req, res) => {
     baseCode = baseCode.rows[0];
 
     let final = [];
-    let tempOutput = "", actualMessage = "";
 
     // console.log(testCase.rowCount);
 
     for (let i = 0; i < testCase.rowCount; i++) {
+      let tempOutput = "", actualMessage = "";
       let codeNewData = generateCode(baseCode["base_code"], code, testCase.rows[i]["_input"]);
+
       // call api compiler
       let actualOutput = await runCode({language, code: codeNewData});
 
@@ -184,7 +190,10 @@ app.post('/submit', async (req, res) => {
       }
       
       else {
-        actualOutput[1] = actualOutput[1].slice(0, -2);
+        if(actualOutput[1].slice(-1) === '\n' || actualOutput[1].slice(-1) === '\r') actualOutput[1] = actualOutput[1].slice(0, -1);
+        if(actualOutput[1].slice(-1) === '\r') actualOutput[1] = actualOutput[1].slice(0, -1);
+
+
         if (actualOutput[1] === testCase.rows[i]["_output"]) actualMessage = "Right answer"
         if (actualOutput[1] === testCase.rows[i]["_output"].split('\\n').join('\n')) actualMessage = "Right answer"  
         if (actualMessage === "") actualMessage = "Wrong answer"

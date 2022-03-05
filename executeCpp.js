@@ -17,7 +17,7 @@ const executeCpp = (filepath) => {
     exec(
       `g++ ${filepath} -o ${outPath} && cd ${outputPath} && ${jobId}.exe`, (error, stdout, stderr) => {
         error && reject(stderr);
-        stderr && reject(stderr);
+        stderr && reject({stderr, stdout});
         resolve(stdout);
       }
     );

@@ -6,7 +6,7 @@ const executeJava = (filepath) => {
       `java ${filepath}`,
       (error, stdout, stderr) => {
         error && reject(stderr);
-        stderr && reject(stderr);
+        stderr && reject({stderr, stdout});
         resolve(stdout);
       }
     );
