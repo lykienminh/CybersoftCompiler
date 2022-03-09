@@ -68,10 +68,11 @@ app.get("/getAllQuestion", async (req, res) => {
 
     questionID = result;
     result = [];
-    // questionID.forEach(element => {
-    //   let temp = getQuestionID(element)
-    //   result.push(temp)
-    // });
+    /* comment by github@lykienminh
+    questionID.forEach(element => {
+      let temp = getQuestionID(element)
+      result.push(temp)
+    });*/
     for (const element in questionID) {
       let temp = await getQuestionID(questionID[element]);
       result.push(temp);
@@ -101,7 +102,7 @@ async function runCode (props) {
   if (code === undefined || code === "") {
     return [false, "Empty code body!"];
   }
-  let result 
+  // let result by github@lykienminh
   try {
     // need to generate a c++ file with content from the request
     const filepath = await generateFile(language, code);
@@ -122,11 +123,10 @@ async function runCode (props) {
       return [false, "Don't know this language"];
     }
 
-
     return [true, output];
-    //return res.status(200).send(output);
+    // comment return res.status(200).send(output);
   } catch (err) {
-    if (err["stdout"]) return [true, err["stdout"], err["stdout"]];
+    if (err["err"]["killed"] && err["err"]["signal"] === 'SIGTERM') return [true, err["stderr"]];
     return [false, err];
   }
 }
@@ -137,7 +137,8 @@ app.post('/run', async (req, res) => {
   return res.status(200).json({success: true, output: result[1]});
 })
 
-/*async function getTestCase (id) {
+/* comment by github@lykienminh
+async function getTestCase (id) {
   try {
     const test_case = await pool.query('SELECT testcase_id, _input, _output FROM testcase WHERE question_id = $1', [id]);
     return test_case;
@@ -214,7 +215,8 @@ app.post('/submit', async (req, res) => {
     console.log(err);
   }
 })
-/*app.post('/run', async (req, res) =>{
+/* comment by github@lykienminh
+app.post('/run', async (req, res) =>{
   const { language = "cpp", code } = req.body;
 
   console.log(language, "Length:", code.length);
