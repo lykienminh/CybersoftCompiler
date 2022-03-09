@@ -105,7 +105,7 @@ public class Solution {
 }'); 
 INSERT INTO init_code VALUES (21, 'js', 
 '__function__
-console.log(uniqueNumber(__test_case__))', 
+console.log(uniqueNumber([__test_case__]))', 
 'function uniqueNumber(arr) {
 }', 
 'function uniqueNumber(arr) {
@@ -115,7 +115,7 @@ console.log(uniqueNumber(__test_case__))',
 }'); 
 INSERT INTO init_code VALUES (21, 'py', 
 '__function__
-print(uniqueNumber(__test_case__))',
+print(uniqueNumber([__test_case__]))',
 'def uniqueNumber(arr):', 
 'def uniqueNumber(arr):
 	for x in arr:
