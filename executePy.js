@@ -5,8 +5,8 @@ const executePy = (filepath) => {
     exec(
       `python ${filepath}`,
       (error, stdout, stderr) => {
-        error && reject(stderr);
-        stderr && reject({stderr, stdout});
+        error && reject({error, stderr});
+        // stderr && reject({stdout}); maybe not need for us
         resolve(stdout);
       }
     );

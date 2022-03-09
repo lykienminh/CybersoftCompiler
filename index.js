@@ -122,12 +122,11 @@ async function runCode (props) {
     else {
       return [false, "Don't know this language"];
     }
-
     return [true, output];
     // comment return res.status(200).send(output);
   } catch (err) {
-    if (err["err"]["killed"] && err["err"]["signal"] === 'SIGTERM') return [true, err["stderr"]];
-    return [false, err];
+    if (err["error"]["killed"] && err["error"]["signal"] === 'SIGTERM') return [false, 'Time limit exceeded'];
+    return [false, err["stderr"]];
   }
 }
 
