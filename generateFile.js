@@ -1,6 +1,6 @@
 const fs = require("fs");
 const path = require("path");
-//const { v4: uuid } = require("uuid"); // rename v4 to uuid
+const { v4: uuid } = require("uuid"); // rename v4 to uuid
 
 const dirCodes = path.join(__dirname, "codes"); 
 
@@ -9,8 +9,7 @@ if (!fs.existsSync(dirCodes)) {
 }
 
 const generateFile = async (format, content) => {
-  //const jobId = uuid();
-  const jobId = "code";
+  const jobId = uuid();
   const filename = `${jobId}.${format}`;
   const filepath = path.join(dirCodes, filename);
   await fs.writeFileSync(filepath, content);
