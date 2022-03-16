@@ -8,14 +8,15 @@ if (!fs.existsSync(outputPath)) {
   fs.mkdirSync(outputPath, { recursive: true });
 }
 
-const executeCpp = (filepath) => {
+const executeCpp = (filepath, tle = 10000) => {
   // basename: <name>.cpp
   const jobId = path.basename(filepath).split(".")[0];
   const outPath = path.join(outputPath, `${jobId}.exe`);
-
+  console.log(tle);
   return new Promise((resolve, reject) => {
     exec(
-      `g++ ${filepath} -o ${outPath} && cd ${outputPath} && ${jobId}.exe`, { timeout: 1500 }, (error, stdout, stderr) => {
+      `g++ ${filepath} -o ${outPath} && cd ${outputPath} && ${jobId}.exe`, { timeout: tle },
+        (error, stdout, stderr) => {
         error && reject({error, stderr});
         // stderr && reject({stdout}); maybe not need for us
         resolve(stdout);

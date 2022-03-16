@@ -1,9 +1,9 @@
 const { exec } = require("child_process");
 
-const executeJS = (filepath) => {
+const executeJS = (filepath, tle = 10000) => {
   return new Promise((resolve, reject) => {
     exec(
-      `node ${filepath}`,
+      `node ${filepath}`, { timeout: tle },
       (error, stdout, stderr) => {
         error && reject({error, stderr});
         // stderr && reject({stdout}); maybe not need for us
