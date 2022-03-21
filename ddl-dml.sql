@@ -85,14 +85,30 @@ INSERT INTO init_code VALUES (21, 'cpp', 1000,
 '#include <iostream>
 #include <vector>
 #include <algorithm>
+#include <sstream>
+#include <iterator>
 
 using namespace std;
+
+vector<int> handleArrayInput(string input) {
+    vector<int> result;
+
+    stringstream text_stream(input);
+    string item;
+    while (std::getline(text_stream, item, '','')) {
+        result.push_back(stoi(item));
+    }
+
+    return result;
+}
 
 __function__
 
 int main(int argc, char** argv) {
-    vector<int> param = {__test_case__};
-    cout << uniqueNumber(param);
+    string param = __test_case__;
+
+    cout << uniqueNumber(handleArrayInput(param));
+
     return 0;
 }', 
 'int uniqueNumber(vector<int> arr) {
@@ -158,7 +174,7 @@ using namespace std;
 __function__
 
 int main(int argc, char** argv) {
-    cout << checkNumber("__test_case__");
+    cout << checkNumber(__test_case__);
     return 0;
 }', 
 'int checkNumber(string s) {
@@ -207,11 +223,11 @@ INSERT INTO init_code VALUES (22, 'py', 4000,
 print(checkNumber("__test_case__"))',
 'def checkNumber(s):', 
 'def checkNumber(s):
-	try:
+    try:
     	float(s)
     	return 1
     except:
-    	return -1');
+        return -1');
 --QUESTION 23
 INSERT INTO init_code VALUES (23, 'cpp', 500, 
 '#include <iostream>
@@ -221,7 +237,7 @@ using namespace std;
 __function__
 
 int main(int argc, char** argv){
-    cout << upperCase("__test_case__");
+    cout << upperCase(__test_case__);
     return 0;
 }', 
 'string upperCase(string string) {
@@ -288,7 +304,7 @@ using namespace std;
 __function__
 
 int main(int argc, char** argv) {
-    cout << checkMax("__test_case__");
+    cout << checkMax(__test_case__);
     return 0;
 }', 
 'int checkMax(string str) {
