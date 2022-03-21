@@ -57,6 +57,18 @@ For str = "camel case word" then upper_case(str) = "CamelCaseWord"', '0 < str.le
 INSERT INTO problem VALUES (24, 'Check Max', 'Given a string str. Find the character which has the greatest decimal value in str (in ASCII table) and return that decimal value.', 'String str', 'Integer', 'For s1 = "abc", the output should be checkMax(s1)= 99.
 Because ''c'' has the greatest decimal value in s1 and the decimal value of ''c'' is 99.', '1 ≤ str.length ≤ 20000', 'The greatest decimal value.', '0.1s for C++, 0.6s for Java, C#, 0.8s for Python, Js, Go', 'abc', '99', 'easy');
 
+INSERT INTO problem VALUES (71, 'Object', 'Create object with key: key1, key2, akey, bkey. And data is 1, 2, "abc", "mno"', 'Void', 'Object', 'Return object example {
+key1: 1, 
+key2: 2, 
+akey: "abc", 
+bkey: "mno"
+}', '', 'Return object with any order of key', '' ,'', '{
+key1: 1, 
+key2: 2, 
+akey: "abc", 
+bkey: "mno"
+}', 'easy');
+
 -- INSERT testcase
 INSERT INTO testcase VALUES (21, 1, '[19, 17, 19, 68, 68]', '17'); 
 INSERT INTO testcase VALUES (21, 2, '[34, 76, 76]', '34'); 
@@ -77,7 +89,24 @@ INSERT INTO testcase VALUES (23, 5, '', '');
 
 INSERT INTO testcase VALUES (24, 1, 'abc', '99'); 
 INSERT INTO testcase VALUES (24, 2, 'fdhfghfgh', '104'); 
-INSERT INTO testcase VALUES (24, 3, 'slfjlJKHKJkk', '115'); 
+INSERT INTO testcase VALUES (24, 3, 'slfjlJKHKJkk', '115');
+
+INSERT INTO testcase VALUES (71, 1, '', '{
+"key1": 1, 
+"key2": 2, 
+"akey": "abc", 
+"bkey": "mno"
+}');
+INSERT INTO testcase VALUES (71, 2, '', '{"key1": 1, 
+"bkey": "mno",
+"key2": 2, 
+"akey": "abc"}');
+INSERT INTO testcase VALUES (71, 3, '', '{
+"bkey": "mno",
+"akey": "abc",
+"key2": 2,
+"key1": 1
+}');
 
 -- INSERT init_code
 --QUESTION 21
@@ -361,3 +390,18 @@ print(checkMax("__test_case__"))',
 	for x in lst:
     	ascii.append(ord(x))
 	return max(ascii)');
+--QUESTION 71
+INSERT INTO init_code VALUES (71, 'js', 800, 
+'__function__    
+console.log(JSON.stringify(createObject()))', 
+'function createObject () {
+}', 
+'function createObject () {
+    const object = {
+        "key1": 1, 
+        "key2": 2, 
+        "akey": "abc",
+        "bkey": "mno"
+    }
+    return object
+}');

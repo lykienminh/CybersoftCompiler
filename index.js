@@ -236,7 +236,7 @@ function formatOutput (actualOutput, testCase, i) {
     if(actualOutput[1].slice(-1) === '\r') actualOutput[1] = actualOutput[1].slice(0, -1);
 
     if (actualOutput[1][0] === '{' && actualOutput[1].slice(-1) === '}') {
-      if (object_equals(testCase.rows[i]["_output"]), actualOutput[1]) actualMessage = "Right answer"
+      if (object_equals(testCase.rows[i]["_output"], actualOutput[1])) actualMessage = "Right answer"
     }
     else {
       if (actualOutput[1] === testCase.rows[i]["_output"]) actualMessage = "Right answer"
