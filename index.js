@@ -161,10 +161,20 @@ app.listen(PORT, () => {
 
 async function getQuestionID (id) {
   try {
-    const question_id = await pool.query('SELECT * FROM problem WHERE question_id = $1', [id]);
+    const problem = await pool.query('SELECT * FROM problem WHERE question_id = $1', [id]);
     const test_case = await pool.query('SELECT testcase_id, _input, _output FROM testcase WHERE question_id = $1', [id]);
     const init_code = await pool.query('SELECT _language, tle, _function, base_code, _answer FROM init_code WHERE question_id = $1', [id]);
-    let result = { ...question_id.rows[0], "test_case": test_case.rows, "init_code": init_code.rows };
+    const problem_detail = await pool.query('SELECT locale, question_title, problem, explanation, constraint_input, constraint_output, constraint_time FROM problem_detail WHERE question_id = $1', [id]);
+    
+    let result = { ...problem.rows[0] };
+
+    problem_detail.rows.forEach(element => {
+      const _locale = element["locale"]
+      delete element.locale
+      result[_locale] = element
+    });
+
+    result = { ...result, "test_case": test_case.rows, "init_code": init_code.rows };
     return result;
   } catch(error) {
     throw error;
