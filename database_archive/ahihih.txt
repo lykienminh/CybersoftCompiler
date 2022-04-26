@@ -1,0 +1,143 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <sstream>
+#include <iterator>
+
+using namespace std;
+
+vector<int> handleArrayInput(string input) {
+    vector<int> result;
+
+    stringstream text_stream(input);
+    string item;
+    while (std::getline(text_stream, item, '','')) {
+        result.push_back(stoi(item));
+    }
+
+    return result;
+}
+
+void print_vector(std::vector<int> const &input) {
+    cout << '[';
+    for (int i = 0; i < input.size(); i++) {
+        cout << input.at(i);
+        if (i < input.size() - 1) cout << ", ";
+    }
+    cout << ']';
+}
+
+__function__
+
+int main(int argc, char** argv) {
+    string param = __test_case__;
+
+    print_vector(indexOfMinMax(handleArrayInput(param)));
+
+    return 0;
+}
+
+-----------------------------------------------------------------
+import java.io.*;
+import java.lang.*;
+import java.util.*;
+
+public class Main {
+    public static int[] indexOfMinMax(int[] arr) {
+     int res[] = new int[2];
+
+        int min_index = 0, max_index = 0;
+        for(int i = 1; i < arr.length; i++){
+            if(arr[i] < arr[min_index]){
+                min_index = i;
+            }
+            if(arr[i] > arr[max_index]){
+                max_index = i;
+            }
+        }
+        res[0] = min_index;
+        res[1] = max_index;
+        return res;
+    }
+    
+    public static void print_vector(int[] input) {
+        System.out.print('[');
+        for (int i = 0; i < input.length; i++) {
+            System.out.print(input[i]);
+            if (i < input.length - 1)
+                System.out.print(", ");
+        }
+        System.out.print(']');
+    }
+    
+    public static void main(String[] args) {
+        int[] param = {1,2,3,2, 1, 4, 1, 4};
+        print_vector(indexOfMinMax(param));
+    }
+}
+---------------------------------------------
+import java.io.*;
+import java.lang.*;
+import java.util.*;
+
+public class Main {
+    public static __function__
+    public static void main(String[] args) {
+        System.out.print(maxArea({__test_case__}));
+    }
+}
+------------------------------------------------
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <sstream>
+#include <iterator>
+
+using namespace std;
+
+vector<int> handleArrayInput(string input) {
+    vector<int> result;
+
+    stringstream text_stream(input);
+    string item;
+    while (std::getline(text_stream, item, '','')) {
+        result.push_back(stoi(item));
+    }
+
+    return result;
+}
+
+__function__
+
+int main(int argc, char** argv) {
+    string param = __test_case__;
+
+    std::cout << maxArea(handleArrayInput(param));
+
+    return 0;
+}
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++
+import java.io.*;
+import java.lang.*;
+import java.util.*;
+
+public class Main {
+    public static __function__
+    
+    public static void print_vector(int[] input) {
+        System.out.print('[');
+        for (int i = 0; i < input.length; i++) {
+            System.out.print(input[i]);
+            if (i < input.length - 1)
+                System.out.print(", ");
+        }
+        System.out.print(']');
+    }
+    
+    public static void main(String[] args) {
+        int[] param = {__test_case__};
+        print_vector(disappearedNumbers(param));
+    }
+}
+***********************************************************

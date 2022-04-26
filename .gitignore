@@ -6,7 +6,7 @@
 .pnp.js
 /codes
 /outputs
-/database_archive
+# /database_archive
 
 # testing
 /coverage
