@@ -4,8 +4,6 @@ const { executeCpp } = require("./executeCpp");
 const { executePy } = require("./executePy");
 const { executeJava } = require("./executeJava");
 const { executeJS } = require("./executeJS");
-const { compileCpp } = require("./compileCpp");
-const { runCpp } = require("./runCpp");
 
 /* 
  * =========================================================================================
@@ -114,28 +112,16 @@ app.post('/submit', async (req, res) => {
     baseCode = baseCode.rows[0];
     
     let final = [];
-    // handleCppSubmit
-    let compileStatus;
-    if (language === 'cpp') {
-      let codeNewData = generateCode(baseCode["base_code"], code, "argv[1]");
-      compileStatus = await handleCompileCpp(codeNewData);
-      console.log(language, "length:", codeNewData.length, "compile");
-    }
+
     // loop all testCase
     for (let i = 0; i < testCase.rowCount; i++) {
       let actualOutput = [];
 
-      if (language !== 'cpp') {
-        // Java, JS, Python
-        let codeNewData = generateCode(baseCode["base_code"], code, testCase.rows[i]["_input"]);
-        // call function compiler
-        console.log(language, "length:", codeNewData.length);
-        actualOutput = await runCode({language, code: codeNewData});
-      }
-      else {
-        if (compileStatus[0]) actualOutput = await handleRunCpp(compileStatus[1], testCase.rows[i]["_input"]);
-        else actualOutput = compileStatus;
-      }
+      // Java, JS, Python
+      let codeNewData = generateCode(baseCode["base_code"], code, testCase.rows[i]["_input"]);
+      // call function compiler
+      console.log(language, "length:", codeNewData.length);
+      actualOutput = await runCode({language, code: codeNewData});
 
       // Format Output = [isSuccess, Output] => JSON
       final.push(formatOutput(actualOutput, testCase, i));
@@ -268,33 +254,6 @@ function formatOutput (actualOutput, testCase, i) {
   return tempOutputFormatResult
 }
 
-async function handleCompileCpp (code) {
-  try {
-    // need to generate a c++ file with content from the request
-    const filepath = await generateFile('cpp', code);
-    let outPath = await compileCpp(filepath);
-
-    return [true, outPath];
-  } catch (err) {
-    if (err["error"]["killed"] && err["error"]["signal"] === 'SIGTERM') return [false, 'Time limit exceeded'];
-    return [false, err["stderr"]];
-  }
-}
-
-async function handleRunCpp (filepath, testCase) {
-  if (testCase[0] === '[' && testCase.slice(-1) === ']') {
-    testCase = "\"" + testCase.slice(1, -1) + "\"";
-  }
-  else testCase = "\"" + testCase + "\"";
-  try {
-    let output = await runCpp (filepath, testCase);
-    return [true, output];
-  } catch (err) {
-    if (err["error"]["killed"] && err["error"]["signal"] === 'SIGTERM') return [false, 'Time limit exceeded'];
-    return [false, err["stderr"]];
-  }
-}
-
 function object_equals(expectedOutput, actualOutput) {
   const x = JSON.parse(expectedOutput)
   const y = JSON.parse(actualOutput)
@@ -333,43 +292,3 @@ function object_equals(expectedOutput, actualOutput) {
           
   return true;
 }
-
-/* Created by github@lykienminh on 2019-02-07.
- * =========================================================================================
- * Description : There's nothing here :v
- * =========================================================================================
- */
-
-/* comment by github@lykienminh
-app.post('/run', async (req, res) =>{
-  const { language = "cpp", code } = req.body;
-
-  console.log(language, "Length:", code.length);
-
-  if (code === undefined) {
-    return res.status(400).json({ success: false, error: "Empty code body!" });
-  }
-
-  try {
-    // need to generate a c++ file with content from the request
-    const filepath = await generateFile(language, code);
-    // we need to run the file and send the response
-    let output;
-    if (language === "cpp") {
-      output = await executeCpp(filepath);
-    } else if (language === "py") {
-      output = await executePy(filepath);
-    }
-    else if (language === "java") {
-      output = await executeJava(filepath);
-    }
-    else if (language === "javascript") {
-      output = await executeJS(filepath);
-    }
-
-    return res.json({ output });
-    //return res.status(200).send(output);
-  } catch (err) {
-    res.status(500).json({ err });
-  }
-})*/
